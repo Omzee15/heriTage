@@ -1,0 +1,108 @@
+Phase 1 Features 
+1. Places Near Me (Listing & Search)
+Input: User’s location (GPS / manual search).
+Output: List of monasteries near user.
+Later Enhancement: Map-based display (Google Maps API / Mapbox).
+2. Place Details Page
+Input: User clicks a monastery.
+Output: Show monastery details (history, description, images, rating).
+Extra: Link to guides & AR/VR assets.
+3. Open 3D View Page
+Input: User clicks “View in 3D”.
+Output: Render monastery’s 3D model (GLB/FBX/OBJ).
+Tech: WebGL/Three.js or Babylon.js for browser rendering.
+4. AR Interaction Mode
+Input: User opens AR camera (mobile).
+Output:
+Video feed + 3D overlay (monk/guide bot).
+AI bot speaks monastery info from knowledge base.
+AI bot answers user questions (Q&A chatbot with contextual data).
+
+
+
+UI pages : 
+1. Home page -> Current location + nearby places categorised views 
+2. Monastry details page (has the buttons for interact with ar bot and get in 3d view and a basic chatbot that gives basic details)
+
+
+
+stack : 
+Next.js 14 (App Router)
+Prisma ORM for Postgres
+TailwindCSS for styling
+Three.js for 3D rendering
+API Routes for backend endpoints
+
+strucure : monastery-ar-vr-tour/
+│── prisma/                  # Prisma schema & migrations
+│   ├── schema.prisma
+│   └── migrations/
+│
+│── public/                  # Public static assets (thumbnails, icons, fallback 3D)
+│   ├── images/
+│   ├── models/
+│   └── audio/
+│
+│── src/
+│   ├── app/                 # Next.js App Router (frontend pages)
+│   │   ├── layout.tsx
+│   │   ├── page.tsx         # Home page (Places near me)
+│   │   │
+│   │   ├── monastery/       # Monastery-related pages
+│   │   │   ├── [id]/page.tsx         # Monastery details page
+│   │   │   ├── [id]/3d/page.tsx      # 3D view page
+│   │   │   ├── [id]/ar/page.tsx      # AR interaction mode
+│   │   │
+│   │   ├── search/page.tsx  # Search/Explore monasteries
+│   │   ├── saved/page.tsx   # Saved monasteries
+│   │
+│   │   └── api/             # Backend API routes
+│   │       ├── monasteries/
+│   │       │   ├── route.ts          # GET: list monasteries (nearby, search)
+│   │       │   └── [id]/route.ts     # GET: monastery details
+│   │       │
+│   │       ├── files/
+│   │       │   └── [id]/route.ts     # GET: monastery files (3D model, audio)
+│   │       │
+│   │       ├── bot/
+│   │       │   └── query/route.ts    # POST: AI bot query (Q&A in AR mode)
+│   │       │
+│   │       ├── saved/
+│   │       │   ├── route.ts          # GET/POST: user saved monasteries
+│   │       │
+│   │       └── auth/
+│   │           └── [...nextauth].ts  # NextAuth.js for user authentication
+│   │
+│   ├── components/           # Reusable UI components
+│   │   ├── cards/
+│   │   │   ├── MonasteryCard.tsx
+│   │   │   ├── SavedCard.tsx
+│   │   │   └── SearchCard.tsx
+│   │   ├── layout/
+│   │   │   ├── Navbar.tsx
+│   │   │   └── Footer.tsx
+│   │   └── ui/               # ShadCN/Tailwind UI components
+│   │
+│   ├── lib/                  # Utility functions
+│   │   ├── db.ts             # Prisma client setup
+│   │   ├── geolocation.ts    # "nearby places" filtering logic
+│   │   ├── bot.ts            # AI bot Q&A pipeline (vector DB, LLM call)
+│   │   └── auth.ts           # Auth helpers
+│   │
+│   ├── styles/               # Tailwind/global styles
+│   │   └── globals.css
+│   │
+│   └── types/                # TypeScript type definitions
+│       ├── monastery.ts
+│       ├── user.ts
+│       └── api.ts
+│
+│── .env                      # Env variables (DB_URL, API_KEYS, etc.)
+│── package.json
+│── tsconfig.json
+│── tailwind.config.js
+│── next.config.js
+│── README.md
+
+
+

@@ -1,0 +1,73 @@
+Frontend Cards (Phase 1)
+1. Home Page (Places Near Me)
+Get user location (GPS or manual input).
+Show list of monasteries.
+Filters: distance, type (Buddhist, Jain, etc.).
+Each card: thumbnail, name, short details, distance.
+2. Place Details Page
+Show monastery details:
+Name, description, founded year, history.
+Thumbnail gallery.
+Files available (3D model, audio guide, AR).
+CTA: Open in 3D / AR Mode.
+3. 3D View Page
+Render monastery 3D model (file_path).
+Controls: rotate, zoom, walk mode.
+Info overlay: show guide info.
+4. AR Interaction Page
+Live camera feed.
+Bot avatar overlay.
+Bot speech: basic narration.
+User mic → ask questions → bot responds.
+5. Search / Explore Page
+Dedicated search page (for users who don’t want GPS auto-detect).
+Search by name, location, type.
+6. Saved Monasteries / Favorites
+User can save monasteries to revisit.
+Show list of saved monasteries.
+
+BAckend cards 
+1. Monastery Listing (Nearby Places)
+GET /api/monasteries?lat=xx&lng=yy&distance=km&type=buddhist
+Response:
+[
+  {
+    "id": 1,
+    "name": "Namgyal Monastery",
+    "thumbnail": "/storage/thumbs/namgyal.jpg",
+    "file_path": "/storage/models/namgyal.glb",
+    "distance_km": 2.3,
+    "type": "buddhist"
+  }
+]
+2. Monastery Details
+GET /api/monasteries/:id
+Response:
+{
+  "id": 1,
+  "name": "Namgyal Monastery",
+  "description": "Founded in ...",
+  "latitude": 32.2206,
+  "longitude": 76.3202,
+  "founded_year": 1564,
+  "thumbnail": "/storage/thumbs/namgyal.jpg",
+  "files": [
+    { "type": "3d_model", "file_path": "/storage/models/namgyal.glb" },
+    { "type": "audio_guide", "file_path": "/storage/guides/namgyal.mp3" }
+  ]
+}
+3. 3D Model Fetch
+GET /api/monasteries/:id/files?type=3d_model
+4. AI Bot Query (for AR Mode)
+POST /api/bot/query
+Body:
+{ "monastery_id": 1, "question": "When was this built?" }
+Response:
+{ "answer": "This monastery was founded in 1564 by ..." }
+5. User Saved Monasteries
+POST /api/user/saved
+{
+  "user_id": 123,
+  "monastery_id": 1
+}
+GET /api/user/saved?user_id=123
